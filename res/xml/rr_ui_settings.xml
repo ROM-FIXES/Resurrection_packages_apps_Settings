@@ -50,6 +50,13 @@
             android:title="@string/settings_blur_cat" 
             android:summary="@string/settings_blur_sum"
             android:icon="@drawable/rr_blur_icon"/>
+
+        <Preference
+            android:key="smart_pixels"
+            android:title="@string/smart_pixels_title"
+            android:summary="@string/smart_pixels_summary"
+            android:fragment="com.android.settings.rr.fragments.SmartPixels" 
+            android:icon="@drawable/rr_suspend_icon"/>
         
         <PreferenceScreen
             android:key="expanded_desktop"
