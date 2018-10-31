@@ -40,7 +40,7 @@
             android:key="systemui_burnin_protection"
             android:title="@string/burnin_protection_title"
             android:summary="@string/burnin_protection_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:icon="@drawable/rr_burn_in_icon"
             cm:requiresConfig="@*cyanogenmod.platform:bool/config_enableBurnInProtection"/>
 
