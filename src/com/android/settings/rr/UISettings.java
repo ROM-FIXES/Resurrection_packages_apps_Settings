@@ -51,9 +51,6 @@ public class UISettings extends SettingsPreferenceFragment implements
     private static final String RR_INCALL = "rr_incall";
     private static final String KEY_THEME = "theme";
 
-    private static final String SMART_PIXELS = "smart_pixels";
-    private Preference mSmartPixels;
-
     private Preference mFontSizePref;
     private PreferenceScreen mDozeFragement;
     private FingerprintManager mFingerprintManager;
@@ -71,7 +68,6 @@ public class UISettings extends SettingsPreferenceFragment implements
         super.onCreate(savedInstanceState);
         final Activity activity = getActivity(); 
 		ContentResolver resolver = getActivity().getContentResolver();
-        final PreferenceScreen prefScreen = getPreferenceScreen();
 
         addPreferencesFromResource(R.xml.rr_ui_settings);
  		mFontSizePref = findPreference(KEY_FONT_SIZE);
@@ -85,19 +81,13 @@ public class UISettings extends SettingsPreferenceFragment implements
         mFingerprintManager = (FingerprintManager) getActivity().getSystemService(Context.FINGERPRINT_SERVICE);        
         mFingerprint = (PreferenceScreen) findPreference("rr_fp");
         if (!mFingerprintManager.isHardwareDetected()){
-             prefScreen.removePreference(mFingerprint);
+             getPreferenceScreen().removePreference(mFingerprint);
         }
 
         PreferenceScreen mIncall = (PreferenceScreen) findPreference(RR_INCALL);
         if (!isVoiceCapable(getActivity())) {
             getPreferenceScreen().removePreference(mIncall);
         }
-
-        mSmartPixels = (Preference) prefScreen.findPreference(SMART_PIXELS);
-        boolean mSmartPixelsSupported = getResources().getBoolean(
-                com.android.internal.R.bool.config_supportSmartPixels);
-        if (!mSmartPixelsSupported)
-            prefScreen.removePreference(mSmartPixels);
 
         mThemePreference = (ThemePreference) findPreference(KEY_THEME);
         if (mThemePreference != null) {
