@@ -59,10 +59,6 @@ import cyanogenmod.providers.CMSettings;
 
 import com.android.internal.utils.du.DUActionUtils;
 
-import static android.provider.Settings.Secure.CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED;
-
-
-
 public class ButtonSettings extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener {
     private static final String TAG = "ButtonSettings";
@@ -78,8 +74,6 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private static final String KEY_VOLUME_CONTROL_RING_STREAM = "volume_keys_control_ring_stream";
     private static final String KEY_VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
     private static final String KEY_SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
-    private static final String KEY_CAMERA_DOUBLE_TAP_POWER_GESTURE
-            = "camera_double_tap_power_gesture";
 
     private static final String CATEGORY_HOME = "home_key";
     private static final String CATEGORY_BACK = "back_key";
@@ -170,10 +164,6 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
 
         final boolean hasPowerKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_POWER);
 
-        // Double press power to launch camera.
-        mCameraDoubleTapPowerGesture = (SwitchPreference) findPreference(KEY_CAMERA_DOUBLE_TAP_POWER_GESTURE);
-
-
         final boolean hasCameraKey = (deviceKeys & KEY_MASK_CAMERA) != 0;
         final boolean showCameraWake = (deviceWakeKeys & KEY_MASK_CAMERA) != 0;
         final boolean showVolumeWake = (deviceWakeKeys & KEY_MASK_VOLUME) != 0;
@@ -245,17 +235,6 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
                 powerCategory.removePreference(mPowerEndCall);
                 mPowerEndCall = null;
             }
-            if (mCameraDoubleTapPowerGesture != null &&
-                    isCameraDoubleTapPowerGestureAvailable(getResources())) {
-                // Update double tap power to launch camera if available.
-                mCameraDoubleTapPowerGesture.setOnPreferenceChangeListener(this);
-                int cameraDoubleTapPowerDisabled = Settings.Secure.getInt(
-                        getContentResolver(), CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED, 0);
-                mCameraDoubleTapPowerGesture.setChecked(cameraDoubleTapPowerDisabled == 0);
-            } else {
-                powerCategory.removePreference(mCameraDoubleTapPowerGesture);
-                mCameraDoubleTapPowerGesture = null;
-            }
         } else {
             prefScreen.removePreference(powerCategory);
         }
@@ -280,12 +259,6 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
             }
         }
 
-        mDt2lCameraVibrateConfig = (SeekBarPreference) findPreference(DT2L_CAMERA_VIBRATE_CONFIG);
-        int dt2lCameraVibrateConfig = Settings.System.getInt(resolver,
-                Settings.System.DT2L_CAMERA_VIBRATE_CONFIG, 1);
-        mDt2lCameraVibrateConfig.setValue(dt2lCameraVibrateConfig / 1);
-        mDt2lCameraVibrateConfig.setOnPreferenceChangeListener(this);
-
     }
 
     private ListPreference initActionList(String key, int value) {
@@ -308,17 +281,7 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-         if (preference == mCameraDoubleTapPowerGesture) {
-            boolean value = (Boolean) newValue;
-            Settings.Secure.putInt(getContentResolver(), CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED,
-                    value ? 0 : 1 /* Backwards because setting is for disabling */);
-            return true;
-        } else if (preference == mDt2lCameraVibrateConfig) {
-            int dt2lcameravib = (Integer) newValue;
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.DT2L_CAMERA_VIBRATE_CONFIG, dt2lcameravib * 1);
-           return true;
-        } else if (preference == mVolumeKeyCursorControl) {
+        if (preference == mVolumeKeyCursorControl) {
             handleSystemActionListChange(mVolumeKeyCursorControl, newValue,
                     Settings.System.VOLUME_KEY_CURSOR_CONTROL);
             return true;

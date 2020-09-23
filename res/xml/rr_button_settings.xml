@@ -64,21 +64,6 @@
             android:defaultValue="true" />
 
         <SwitchPreference
-            android:key="camera_double_tap_power_gesture"
-            android:title="@string/camera_double_tap_power_gesture_title"
-            android:summary="@string/camera_double_tap_power_gesture_desc"
-            android:persistent="false" />
-
-        <com.android.settings.rr.SeekBarPreference
-                android:key="dt2l_camera_vibrate_config"
-                android:title="@string/dt2l_camera_vib_title"
-                settings:maximum="500"
-                settings:minimum="0"
-                settings:units="ms"
-                android:dependency="camera_double_tap_power_gesture"
-                android:persistent="false" />
-
-        <SwitchPreference
             android:key="power_end_call"
             android:title="@string/power_end_call_title"
             android:summary="@string/power_end_call_summary"
