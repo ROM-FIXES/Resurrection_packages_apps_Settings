@@ -379,12 +379,10 @@
                 android:value="true" />
         </activity>
          <activity
-            android:name="com.android.settings.rr.SubActivity"
-            android:theme="@style/PreferenceTheme">
+            android:name="com.android.settings.rr.SubActivity">
         </activity>
         <activity
             android:name="com.android.settings.rr.SlimRecentAppSidebarActivity"
-            android:theme="@style/PreferenceTheme"
             android:label="@string/recent_app_sidebar_title">
         </activity>
 
